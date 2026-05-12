@@ -1,8 +1,131 @@
-.button {
+
+.main {
+    -fx-background-color: #131314;
+    -fx-padding: 0;
+    -fx-text-fill: white;
+
+}
+
+
+.btn {
+
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 36px;
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+    -fx-min-width: 80px;
+    -fx-min-height: 80px;
+    -fx-max-width: 80px;
+    -fx-max-height: 80px;
+}
+
+.btn:hover {
+    -fx-background-color: #45a040;
+    -fx-cursor: hand;
+}
+
+.config{
+    -fx-font-size: 16px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+      -fx-min-width: 40px;
+        -fx-min-height: 40px;
+        -fx-max-width: 40px;
+        -fx-max-height: 40px;
+}
+.save{
+  -fx-font-size: 16px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+      -fx-min-width: 100px;
+        -fx-min-height: 40px;
+        -fx-max-width: 100px;
+        -fx-max-height: 40px;
+}
+.profile {
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+    -fx-pref-width: 250px;
+    -fx-pref-height: 250px;
+}
+
+.input-block {
+    -fx-background-color: #1a1a1a;
+    -fx-padding: 20px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-pref-width: 500px;
+}
+
+.input-block .label {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+.config-title {
+    -fx-text-fill: white;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+
+.section-label {
+    -fx-text-fill: #4CAF50;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 8 0 0 0;
+}
+
+
+.field-group {
+    -fx-spacing: 6px;
+    -fx-pref-width: 400px;
+}
+
+
+.field-label {
+    -fx-text-fill: #aaaaaa;
+    -fx-font-size: 13px;
+}
+
+
+.text-field {
+    -fx-background-color: #1e1e1e;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #555555;
+    -fx-border-color: #2e2e2e;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px;
+    -fx-font-size: 13px;
+    -fx-pref-height: 40px;
+}
+
+.text-field:focused {
+    -fx-border-color: #4CAF50;
+}
+
+.divider {
+    -fx-pref-width: 400px;
+    -fx-opacity: 0.2;
+}
+
+
+.save {
     -fx-background-color: #4CAF50;
     -fx-text-fill: white;
     -fx-font-size: 14px;
-    -fx-border-radius: 5px;
-    -fx-width: 100px;
-    -fx-height:50px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-min-width: 120px;
+    -fx-min-height: 42px;
+    -fx-max-width: 120px;
+    -fx-max-height: 42px;
+    -fx-cursor: hand;
+}
+
+.save:hover {
+    -fx-background-color: #45a040;
 }

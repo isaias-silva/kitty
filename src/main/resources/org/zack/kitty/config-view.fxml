@@ -1,33 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.Pane?>
-<VBox styleClass="main" alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.zack.kitty.controllers.AppController" stylesheets="@styles/main.css">
-        <VBox>
-              <Button styleClass="btn, config" text="⚙️" onAction="#onConfigClick"/>
-        </VBox>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Separator?>
+
+<VBox styleClass="main" alignment="TOP_CENTER" spacing="24.0"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.zack.kitty.controllers.ConfigController"
+      stylesheets="@styles/main.css">
 
         <padding>
-                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                <Insets top="40" right="40" bottom="40" left="40"/>
         </padding>
 
+        <Separator styleClass="divider"/>
 
-        <StackPane styleClass="profile">
-                <ImageView fitWidth="250" fitHeight="250" preserveRatio="true">
-                        <Image url="@assets/profile.png"/>
-                </ImageView>
-        </StackPane>
 
-        <Button fx:id="micButton" text="🎙️" onAction="#onMicClick" styleClass="btn"/>
-        <Pane styleClass="input-block">
-            <Label fx:id="inputLabel" text="..."/>
-        </Pane>
+        <Label text="ASSISTENTE" styleClass="section-label"/>
+
+        <VBox styleClass="field-group">
+                <Label text="Nome do assistente" styleClass="field-label"/>
+                <TextField fx:id="assistantName" promptText="Ex: Kitty"/>
+        </VBox>
+
+
+        <Label text="SPEECH TO TEXT" styleClass="section-label"/>
+
+        <VBox styleClass="field-group">
+                <Label text="Chave da API" styleClass="field-label"/>
+                <TextField fx:id="sttKey" promptText="sk-..."/>
+        </VBox>
+
+        <VBox styleClass="field-group">
+                <Label text="Modelo" styleClass="field-label"/>
+                <TextField fx:id="sttModel" promptText="Ex: whisper-1"/>
+        </VBox>
+
+
+        <Label text="LARGE LANGUAGE MODEL" styleClass="section-label"/>
+
+        <VBox styleClass="field-group">
+                <Label text="Chave da API" styleClass="field-label"/>
+                <TextField fx:id="llmKey" promptText="sk-..."/>
+        </VBox>
+
+        <VBox styleClass="field-group">
+                <Label text="Modelo" styleClass="field-label"/>
+                <TextField fx:id="llmModel" promptText="Ex: gpt-4o, claude-3"/>
+        </VBox>
+
+        <Separator styleClass="divider"/>
+
+
+        <Button text="Salvar" styleClass="btn, save" onAction="#onSave" />
+
 </VBox>

@@ -1,4 +1,4 @@
-package org.zack.kitty;
+package org.zack.kitty.controllers;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;

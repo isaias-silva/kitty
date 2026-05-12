@@ -1,4 +1,4 @@
-package org.zack.kitty.utils;
+package org.zack.kitty.io;
 
 import java.io.File;
 import java.io.IOException;
