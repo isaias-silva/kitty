@@ -5,8 +5,8 @@ import java.io.IOException;
 import javax.sound.sampled.LineUnavailableException;
 
 import org.zack.kitty.dto.SttData;
-import org.zack.kitty.services.ServiceRegistry;
 import org.zack.kitty.io.AudioRecorder;
+import org.zack.kitty.services.ServiceRegistry;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -80,6 +80,7 @@ public class AppController extends Controller {
 		playFadeAnimation();
 		micButton.setText("...");
 		isListening = true;
+		inputLabel.getStyleClass().remove("error");
 		inputLabel.setText("Estou ouvindo...");
 
 		sttData.setAudioPath(audioRecorder.startRecord());
@@ -87,6 +88,8 @@ public class AppController extends Controller {
 
 
 	private void stopRecording() throws IOException {
+
+
 		stopScaleAnimation(micButton);
 		stopFadeAnimation(micButton);
 
@@ -95,8 +98,13 @@ public class AppController extends Controller {
 
 		inputLabel.setText("...");
 		audioRecorder.stopRecord();
-		sttData.setText(ServiceRegistry.INSTANCE.getSttService().transcript(sttData.getAudioPath()));
+		try {
+			sttData.setText(ServiceRegistry.INSTANCE.getSttService().transcript(sttData.getAudioPath()));
+			inputLabel.setText(sttData.getText());
+		} catch (Exception e) {
+			inputLabel.getStyleClass().add("error");
+			inputLabel.setText("Configuração inválida por favor ajuste a configuração.");
+		}
 
-		inputLabel.setText(sttData.getText());
 	}
 }

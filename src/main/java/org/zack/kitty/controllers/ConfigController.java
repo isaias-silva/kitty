@@ -28,7 +28,7 @@ public class ConfigController extends Controller {
 
 
 	@FXML
-	public void initialize() throws IOException {
+	public void initialize(){
 
 		data = new ConfigData();
 
@@ -50,7 +50,7 @@ public class ConfigController extends Controller {
 	}
 
 
-	private void loadConfig() throws IOException {
+	private void loadConfig(){
 		ConfigService configService = ServiceRegistry.INSTANCE.getConfigService();
 		try {
 			data = configService.getConfigurations();
@@ -61,8 +61,8 @@ public class ConfigController extends Controller {
 			sttKey.setText(data.getSttApiKey());
 
 		} catch (IOException e) {
+			System.out.println(e.getMessage());
 
-			configService.generateConfig(data);
 		}
 	}
 }

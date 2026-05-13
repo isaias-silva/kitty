@@ -62,6 +62,10 @@
     -fx-text-fill: white;
     -fx-font-size: 14px;
 }
+.input-block .label.error {
+    -fx-text-fill: red;
+    -fx-font-size: 16px;
+}
 
 .config-title {
     -fx-text-fill: white;

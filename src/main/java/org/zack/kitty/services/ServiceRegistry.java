@@ -17,9 +17,10 @@ public class ServiceRegistry {
 		this.configService = new ConfigService();
 		try {
 			ConfigData configData = configService.getConfigurations();
-
 			this.sttService = new SttService(configData);
+
 		} catch (IOException e) {
+
 			throw new RuntimeException("error in load kitty-config.json");
 		}
 	}
