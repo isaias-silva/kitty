@@ -1,40 +1,27 @@
 package org.zack.kitty.controllers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.zack.kitty.interfaces.Agent;
+import org.zack.kitty.services.ServiceRegistry;
 
-import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import one.jpro.platform.mdfx.MarkdownView;
 
 public class BlackboardController {
 
-	public VBox mensagensBox;
-
-	private final List<String[]> messages = new ArrayList<>();
+	public VBox contentBox;
 
 
-	public void addMessage(String author, String content) {
-		messages.add(new String[] {author, content});
-	}
+	public void sendPrompt(String message) {
 
-	public List<String[]> getMessages() {
-		return messages;
-	}
+		Agent agent = ServiceRegistry.INSTANCE.getAgentService().getAgent();
 
-	public void update(){
-		System.out.println(messages.size());
-		for(String[] message: messages){
 
-			Label label = new Label(message[1]);
+		String response = agent.chat("default-conversation", message);
 
-			label.getStyleClass().add(message[0]);
+		MarkdownView mdView = new MarkdownView(response);
+		mdView.getStylesheets().add(getClass().getResource("/org/zack/kitty/styles/main.css").toExternalForm());
 
-			label.setWrapText(true);
-
-			mensagensBox.getChildren().add(label);
-		}
-
+		mdView.setMaxWidth(Double.MAX_VALUE);
+		contentBox.getChildren().setAll(mdView);
 	}
 }

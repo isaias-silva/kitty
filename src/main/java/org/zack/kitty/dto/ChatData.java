@@ -1,6 +1,6 @@
 package org.zack.kitty.dto;
 
-public class SttData {
+public class ChatData {
 
 	private String audioPath;
 

@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
 
-import org.zack.kitty.dto.SttData;
+import org.zack.kitty.dto.ChatData;
 import org.zack.kitty.io.AudioRecorder;
 import org.zack.kitty.services.ServiceRegistry;
 
@@ -28,17 +28,16 @@ public class AppController extends AnimationController {
 
 	private boolean isListening = false;
 
-	private final SttData sttData;
+	private final ChatData chatData;
 
 	private final AudioRecorder audioRecorder;
 
 	private BlackboardController blackboard;
-
 	private Stage auxStage;
 
 	public AppController() {
 		audioRecorder = new AudioRecorder("/tmp");
-		sttData = new SttData();
+		chatData = new ChatData();
 	}
 
 
@@ -74,9 +73,18 @@ public class AppController extends AnimationController {
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/zack/kitty/config-view.fxml"));
 
-		Scene scene = new Scene(loader.load(), 400, 700);
+		Scene scene = new Scene(loader.load(), 800, 400);
 		stage.setScene(scene);
 		stage.show();
+	}
+
+
+	@FXML
+	protected void onSendMessage() throws IOException {
+		chatData.setText(inputLabel.getText());
+		openBackboard();
+		blackboard.sendPrompt(chatData.getText());
+
 	}
 
 
@@ -88,7 +96,7 @@ public class AppController extends AnimationController {
 		inputLabel.getStyleClass().remove("error");
 		inputLabel.setText("Estou ouvindo...");
 
-		sttData.setAudioPath(audioRecorder.startRecord());
+		chatData.setAudioPath(audioRecorder.startRecord());
 	}
 
 
@@ -104,9 +112,12 @@ public class AppController extends AnimationController {
 		inputLabel.setText("...");
 		audioRecorder.stopRecord();
 		try {
-			sttData.setText(ServiceRegistry.INSTANCE.getSttService().transcript(sttData.getAudioPath()));
-			inputLabel.setText(sttData.getText());
+			chatData.setText(ServiceRegistry.INSTANCE.getSttService().transcript(chatData.getAudioPath()));
+			inputLabel.setText(chatData.getText());
 			openBackboard();
+
+			blackboard.sendPrompt(chatData.getText());
+
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -139,9 +150,9 @@ public class AppController extends AnimationController {
 
 			auxStage.setOnHidden(event -> blackboard = null);
 			auxStage.show();
+		} else {
+			auxStage.toFront();
 		}
-		blackboard.addMessage("me", sttData.getText());
-		blackboard.update();
 
 	}
 }

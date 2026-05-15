@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <VBox styleClass="main" alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.zack.kitty.controllers.AppController" stylesheets="@styles/main.css">
         <VBox>
@@ -28,10 +26,14 @@
         </StackPane>
 
         <Button fx:id="micButton" text="🎙️" onAction="#onMicClick" styleClass="btn"/>
-        <Pane styleClass="input-block">
-            <TextArea fx:id="inputLabel" text="..." wrapText="true" prefRowCount="3"/>
-                <Button text="perguntar" styleClass="submit"/>
-        </Pane>
+        <AnchorPane styleClass="input-block">
+                <TextArea fx:id="inputLabel" text="gostaria que..." wrapText="true" prefRowCount="3"
+                          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0"
+                          AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"/>
+                <Button text="perguntar" styleClass="submit"
+                        AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+                        prefWidth="90" prefHeight="40" onAction="#onSendMessage"/>
+        </AnchorPane>
 
 
 

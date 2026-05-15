@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.ScrollPane?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.zack.kitty.controllers.BlackboardController"
             prefHeight="400.0" prefWidth="600.0"
             stylesheets="@styles/main.css"
-            styleClass="main"
->
-        <ScrollPane fitToWidth="true" styleClass="scroll">
+            styleClass="main">
+
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" styleClass="scroll"
+                    vbarPolicy="AS_NEEDED" hbarPolicy="NEVER"
+                    AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                 <content>
-                <VBox styleClass="scroll-block" fx:id="mensagensBox" spacing="5" />
+                        <VBox fx:id="contentBox" maxWidth="Infinity"/>
                 </content>
         </ScrollPane>
+
 </AnchorPane>

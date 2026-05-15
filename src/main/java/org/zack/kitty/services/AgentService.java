@@ -18,8 +18,12 @@ public class AgentService {
 			.apiKey(configData.getLlmApiKey()).modelName(configData.getLlmModel()).build();
 
 		agent = AiServices.builder(Agent.class).chatModel(model)
-			.chatMemory(MessageWindowChatMemory.withMaxMessages(10))
-			.tools().build();
+			.chatMemoryProvider(memoryId -> MessageWindowChatMemory.builder()
+				.id(memoryId)
+				.maxMessages(10)
+				.build())
+			.tools()
+			.build();
 	}
 
 

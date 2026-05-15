@@ -5,7 +5,18 @@
     -fx-text-fill: white;
 
 }
-
+.markdown-text {
+   -fx-text-fill: white;
+}
+.markdown-italic {
+  -fx-font-style: italic;
+}
+.markdown-bold {
+  -fx-font-weight: bold;
+}
+.markdown-strikethrough {
+  -fx-strikethrough: true;
+}
 
 .btn {
 
@@ -93,6 +104,23 @@
     -fx-font-size: 13px;
 }
 
+.section-panel {
+    -fx-background-color: transparent;
+    -fx-padding: 16px 0 0 0;
+    -fx-spacing: 16px;
+}
+
+.config-row {
+    -fx-alignment: TOP_CENTER;
+    -fx-pref-width: 100%;
+}
+
+.divider.vertical {
+    -fx-pref-width: 1px;
+    -fx-opacity: 0.2;
+    -fx-padding: 0 0 0 0;
+    -fx-background-color: #1cff1c;
+}
 
 .text-field {
     -fx-background-color: #1e1e1e;
@@ -113,8 +141,8 @@
 .divider {
     -fx-pref-width: 400px;
     -fx-opacity: 0.2;
-}
 
+}
 
 .save {
     -fx-background-color: #4CAF50;
@@ -132,4 +160,63 @@
 
 .save:hover {
     -fx-background-color: #45a040;
+}
+
+.submit {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-min-width: 90px;
+    -fx-min-height: 40px;
+    -fx-max-width: 90px;
+    -fx-max-height: 40px;
+    -fx-cursor: hand;
+}
+
+.submit:hover {
+    -fx-background-color: #45a040;
+}
+
+
+.text-area {
+    -fx-background-color: #0f0f10;
+    -fx-control-inner-background: #0f0f10;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #666666;
+    -fx-border-color: #2e2e2e;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px;
+    -fx-font-size: 13px;
+}
+
+
+.input-block {
+    -fx-background-color: #1a1a1a;
+    -fx-padding: 12px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}
+
+
+.scroll {
+    -fx-background-color: transparent;
+    -fx-padding: 8px;
+    -fx-border-color: transparent;
+}
+
+
+.scroll .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-block {
+    -fx-padding: 8px;
+    -fx-spacing: 8px;
+}
+.board{
+    -fx-text-fill: white;
 }

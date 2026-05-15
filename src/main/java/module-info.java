@@ -1,14 +1,19 @@
 module org.zack.kitty {
-	requires javafx.controls;
-	requires javafx.fxml;
 	requires java.net.http;
-
+	requires org.slf4j;
 	requires org.kordamp.bootstrapfx.core;
 	requires langchain4j.open.ai;
 	requires langchain4j.core;
 	requires com.fasterxml.jackson.databind;
 	requires java.desktop;
 	requires langchain4j;
+
+
+	requires javafx.controls;
+	requires javafx.fxml;
+	requires javafx.web;
+
+	requires one.jpro.platform.mdfx;
 
 	opens org.zack.kitty to javafx.fxml;
 	exports org.zack.kitty;

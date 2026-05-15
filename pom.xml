@@ -57,8 +57,17 @@
       <artifactId>jackson-databind</artifactId>
       <version>2.17.0</version>
     </dependency>
+<dependency>
+    <groupId>one.jpro.platform</groupId>
+    <artifactId>jpro-mdfx</artifactId>
+    <version>0.5.7</version>
 
-
+</dependency>
+<dependency>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-web</artifactId>
+    <version>21</version>
+</dependency>
     </dependencies>
 
   <build>
