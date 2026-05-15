@@ -9,6 +9,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.TextArea?>
 <VBox styleClass="main" alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.zack.kitty.controllers.AppController" stylesheets="@styles/main.css">
         <VBox>
@@ -28,6 +29,10 @@
 
         <Button fx:id="micButton" text="🎙️" onAction="#onMicClick" styleClass="btn"/>
         <Pane styleClass="input-block">
-            <Label fx:id="inputLabel" text="..."/>
+            <TextArea fx:id="inputLabel" text="..." wrapText="true" prefRowCount="3"/>
+                <Button text="perguntar" styleClass="submit"/>
         </Pane>
+
+
+
 </VBox>

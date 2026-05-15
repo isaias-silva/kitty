@@ -5,7 +5,7 @@ import javafx.animation.ScaleTransition;
 import javafx.scene.control.Labeled;
 import javafx.util.Duration;
 
-public abstract class Controller {
+public abstract class AnimationController {
 
 	private ScaleTransition scaleAnimation;
 	private FadeTransition fadeAnimation;

@@ -10,17 +10,18 @@ import org.zack.kitty.services.ServiceRegistry;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class AppController extends Controller {
+public class AppController extends AnimationController {
 
 	@FXML
-	private Label inputLabel;
+	private TextArea inputLabel;
 
 	@FXML
 	private Button micButton;
@@ -31,6 +32,9 @@ public class AppController extends Controller {
 
 	private final AudioRecorder audioRecorder;
 
+	private BlackboardController blackboard;
+
+	private Stage auxStage;
 
 	public AppController() {
 		audioRecorder = new AudioRecorder("/tmp");
@@ -46,8 +50,9 @@ public class AppController extends Controller {
 	}
 
 
+
 	@FXML
-	protected void onMicClick() throws LineUnavailableException, IOException {
+	protected void onMicClick() throws LineUnavailableException {
 		if (isListening) {
 
 			stopRecording();
@@ -87,7 +92,7 @@ public class AppController extends Controller {
 	}
 
 
-	private void stopRecording() throws IOException {
+	private void stopRecording() {
 
 
 		stopScaleAnimation(micButton);
@@ -101,10 +106,42 @@ public class AppController extends Controller {
 		try {
 			sttData.setText(ServiceRegistry.INSTANCE.getSttService().transcript(sttData.getAudioPath()));
 			inputLabel.setText(sttData.getText());
+			openBackboard();
+
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
+
 			inputLabel.getStyleClass().add("error");
 			inputLabel.setText("Configuração inválida por favor ajuste a configuração.");
 		}
+
+	}
+
+
+	private void openBackboard() throws IOException {
+
+		if (blackboard == null) {
+			Stage mainStage = (Stage) micButton.getScene().getWindow();
+
+			auxStage = new Stage();
+			auxStage.setResizable(false);
+			auxStage.initModality(Modality.NONE);
+
+			auxStage.initOwner(mainStage);
+
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/zack/kitty/blackboard-view.fxml"));
+			Parent root = loader.load();
+			blackboard = loader.getController();
+
+			Scene scene = new Scene(root, 700, 400);
+
+			auxStage.setScene(scene);
+
+			auxStage.setOnHidden(event -> blackboard = null);
+			auxStage.show();
+		}
+		blackboard.addMessage("me", sttData.getText());
+		blackboard.update();
 
 	}
 }

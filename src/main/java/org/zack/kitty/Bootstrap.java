@@ -14,7 +14,7 @@ public class Bootstrap extends Application {
 	public void start(Stage stage) throws IOException {
 
 		final FXMLLoader fxmlLoader = new FXMLLoader(Bootstrap.class.getResource("app-view.fxml"));
-		final Scene scene = new Scene(fxmlLoader.load(), 500, 500);
+		final Scene scene = new Scene(fxmlLoader.load(), 520, 550);
 
 		final Properties props = new Properties();
 		props.load(getClass().getResourceAsStream("/application.properties"));

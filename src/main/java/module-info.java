@@ -8,6 +8,7 @@ module org.zack.kitty {
 	requires langchain4j.core;
 	requires com.fasterxml.jackson.databind;
 	requires java.desktop;
+	requires langchain4j;
 
 	opens org.zack.kitty to javafx.fxml;
 	exports org.zack.kitty;
