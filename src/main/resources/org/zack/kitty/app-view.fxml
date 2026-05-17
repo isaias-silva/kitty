@@ -30,9 +30,9 @@
                 <TextArea fx:id="inputLabel" text="gostaria que..." wrapText="true" prefRowCount="3"
                           AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0"
                           AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"/>
-                <Button text="perguntar" styleClass="submit"
+                <Button text="➤" styleClass="submit"
                         AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0"
-                        prefWidth="90" prefHeight="40" onAction="#onSendMessage"/>
+                       onAction="#onSendMessage"/>
         </AnchorPane>
 
 

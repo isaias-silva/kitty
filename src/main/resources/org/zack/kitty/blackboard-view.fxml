@@ -2,6 +2,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextArea?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.zack.kitty.controllers.BlackboardController"
@@ -9,13 +10,12 @@
             stylesheets="@styles/main.css"
             styleClass="main">
 
-        <ScrollPane fx:id="scrollPane" fitToWidth="true" styleClass="scroll"
-                    vbarPolicy="AS_NEEDED" hbarPolicy="NEVER"
-                    AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
-                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                <content>
-                        <VBox fx:id="contentBox" maxWidth="Infinity"/>
-                </content>
-        </ScrollPane>
+
+        <VBox fx:id="contentBox" maxWidth="Infinity" maxHeight="Infinity"
+              styleClass="board-box" VBox.vgrow="ALWAYS">
+                <TextArea fx:id="textArea" styleClass="board-textarea"
+                          VBox.vgrow="ALWAYS"
+                          maxWidth="Infinity" maxHeight="Infinity"/>
+        </VBox>
 
 </AnchorPane>

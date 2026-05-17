@@ -12,6 +12,7 @@ public class ConfigData {
 
 	private String llmModel;
 
+	private String systemPrompt;
 
 	public ConfigData() {}
 
@@ -65,4 +66,13 @@ public class ConfigData {
 		this.llmModel = llmModel;
 	}
 
+
+	public String getSystemPrompt() {
+		return systemPrompt;
+	}
+
+
+	public void setSystemPrompt(final String systemPrompt) {
+		this.systemPrompt = systemPrompt;
+	}
 }

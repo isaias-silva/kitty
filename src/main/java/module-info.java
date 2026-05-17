@@ -11,9 +11,6 @@ module org.zack.kitty {
 
 	requires javafx.controls;
 	requires javafx.fxml;
-	requires javafx.web;
-
-	requires one.jpro.platform.mdfx;
 
 	opens org.zack.kitty to javafx.fxml;
 	exports org.zack.kitty;

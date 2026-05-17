@@ -5,18 +5,6 @@
     -fx-text-fill: white;
 
 }
-.markdown-text {
-   -fx-text-fill: white;
-}
-.markdown-italic {
-  -fx-font-style: italic;
-}
-.markdown-bold {
-  -fx-font-weight: bold;
-}
-.markdown-strikethrough {
-  -fx-strikethrough: true;
-}
 
 .btn {
 
@@ -165,14 +153,14 @@
 .submit {
     -fx-background-color: #4CAF50;
     -fx-text-fill: white;
-    -fx-font-size: 14px;
+    -fx-font-size: 24px;
     -fx-font-weight: bold;
     -fx-background-radius: 10px;
     -fx-border-radius: 10px;
     -fx-min-width: 90px;
-    -fx-min-height: 40px;
+    -fx-min-height: 90px;
     -fx-max-width: 90px;
-    -fx-max-height: 40px;
+    -fx-max-height: 80px;
     -fx-cursor: hand;
 }
 
@@ -202,21 +190,30 @@
 }
 
 
-.scroll {
+.board-box {
+     -fx-pref-width: 700px;
+    -fx-pref-height: 400px;
+}
+
+.board-textarea {
+   -fx-pref-width: -1;
+    -fx-pref-height: -1;
+}
+
+.board-textarea:focused {
     -fx-background-color: transparent;
-    -fx-padding: 8px;
     -fx-border-color: transparent;
 }
-
-
-.scroll .viewport {
-    -fx-background-color: transparent;
+.board-textarea .scroll-bar:vertical {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
 }
 
-.scroll-block {
-    -fx-padding: 8px;
-    -fx-spacing: 8px;
+.board-textarea .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-height: 0;
 }
-.board{
-    -fx-text-fill: white;
+
+.board-textarea .corner {
+    -fx-opacity: 0;
 }
