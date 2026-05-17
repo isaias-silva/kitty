@@ -1,30 +1,31 @@
 package org.zack.kitty.controllers;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.zack.kitty.interfaces.Agent;
+import org.zack.kitty.services.HtmlConvertService;
 import org.zack.kitty.services.ServiceRegistry;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
-
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
 public class BlackboardController {
 
 	public VBox contentBox;
 
-	public TextArea textArea;
+	public WebView webView;
+
 
 	private ExecutorService agentExecutor;
 
 
 	@FXML
 	public void initialize() {
-		textArea.setWrapText(true);
-		textArea.setEditable(false);
-
 		agentExecutor = Executors.newSingleThreadExecutor();
 	}
 
@@ -36,14 +37,19 @@ public class BlackboardController {
 
 	public void sendPrompt(String message, String conversation) {
 
-		Agent agent = ServiceRegistry.INSTANCE.getAgentService().getAgent();
+		final Agent agent = ServiceRegistry.INSTANCE.getAgentService().getAgent();
 
-		textArea.setText("pensando...");
+		final WebEngine engine = webView.getEngine();
 
-		agentExecutor.execute(() -> {
-			String response = agent.chat(conversation, message);
-			textArea.setText(response.replace("\r\n", "\n"));
-		});
+		final HtmlConvertService htmlConvertService = ServiceRegistry.INSTANCE.getHtmlConvertService();
+
+		CompletableFuture.supplyAsync(() -> agent.chat(conversation, message), agentExecutor)
+			.thenApply(htmlConvertService::mdToHtml).thenApply(htmlConvertService::addHead)
+			.thenAccept(response -> Platform.runLater(() -> engine.loadContent(response)));
+
+		engine.loadContent(htmlConvertService.addHead("<p>pensando</p>"));
+
 
 	}
+
 }

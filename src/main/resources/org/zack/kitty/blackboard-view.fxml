@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.ScrollPane?>
+
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.TextArea?>
+
+<?import javafx.scene.web.WebView?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.zack.kitty.controllers.BlackboardController"
@@ -13,9 +14,7 @@
 
         <VBox fx:id="contentBox" maxWidth="Infinity" maxHeight="Infinity"
               styleClass="board-box" VBox.vgrow="ALWAYS">
-                <TextArea fx:id="textArea" styleClass="board-textarea"
-                          VBox.vgrow="ALWAYS"
-                          maxWidth="Infinity" maxHeight="Infinity"/>
+                <WebView fx:id="webView" VBox.vgrow="ALWAYS" />
         </VBox>
 
 </AnchorPane>

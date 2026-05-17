@@ -82,7 +82,7 @@ public class AppController extends AnimationController {
 	@FXML
 	protected void onSendMessage() throws IOException {
 		chatData.setText(inputLabel.getText());
-		openBackboard();
+		openBlackboard();
 		blackboard.sendPrompt(chatData.getText());
 
 	}
@@ -114,7 +114,7 @@ public class AppController extends AnimationController {
 		try {
 			chatData.setText(ServiceRegistry.INSTANCE.getSttService().transcript(chatData.getAudioPath()));
 			inputLabel.setText(chatData.getText());
-			openBackboard();
+			openBlackboard();
 
 			blackboard.sendPrompt(chatData.getText());
 
@@ -129,7 +129,7 @@ public class AppController extends AnimationController {
 	}
 
 
-	private void openBackboard() throws IOException {
+	private void openBlackboard() throws IOException {
 
 		if (blackboard == null) {
 			Stage mainStage = (Stage) micButton.getScene().getWindow();
