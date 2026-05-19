@@ -1,8 +1,10 @@
 package org.zack.kitty.controllers;
 
+import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 
 import org.zack.kitty.interfaces.Agent;
 import org.zack.kitty.services.HtmlConvertService;
@@ -20,13 +22,16 @@ public class BlackboardController {
 
 	public WebView webView;
 
-
 	private ExecutorService agentExecutor;
+
+	private HtmlConvertService htmlConvertService;
 
 
 	@FXML
 	public void initialize() {
 		agentExecutor = Executors.newSingleThreadExecutor();
+		htmlConvertService = ServiceRegistry.INSTANCE.getHtmlConvertService();
+
 	}
 
 
@@ -40,16 +45,16 @@ public class BlackboardController {
 		final Agent agent = ServiceRegistry.INSTANCE.getAgentService().getAgent();
 
 		final WebEngine engine = webView.getEngine();
-
-		final HtmlConvertService htmlConvertService = ServiceRegistry.INSTANCE.getHtmlConvertService();
+		engine.loadContent(htmlConvertService.addHead("<p>pensando...</p>"),"text/html");
 
 		CompletableFuture.supplyAsync(() -> agent.chat(conversation, message), agentExecutor)
 			.thenApply(htmlConvertService::mdToHtml).thenApply(htmlConvertService::addHead)
-			.thenAccept(response -> Platform.runLater(() -> engine.loadContent(response)));
-
-		engine.loadContent(htmlConvertService.addHead("<p>pensando</p>"));
+			.thenAccept(response -> Platform.runLater(() -> engine.loadContent(response, "text/html")));
 
 
 	}
+
+
+
 
 }

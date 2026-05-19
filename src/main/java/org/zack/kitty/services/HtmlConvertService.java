@@ -6,8 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 
-import com.vladsch.flexmark.ext.emoji.EmojiExtension;
-import com.vladsch.flexmark.ext.emoji.EmojiImageType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension;
 import com.vladsch.flexmark.ext.tables.TablesExtension;
 import com.vladsch.flexmark.html.HtmlRenderer;
@@ -20,14 +21,15 @@ public class HtmlConvertService {
 
 	private final HtmlRenderer renderer;
 
+	private static final Logger log = LoggerFactory.getLogger(HtmlConvertService.class);
+
 
 	public HtmlConvertService() {
 		MutableDataSet options = new MutableDataSet();
 
-		options.set(Parser.EXTENSIONS,
-			Arrays.asList(TablesExtension.create(), StrikethroughExtension.create(), EmojiExtension.create()));
+		options.set(Parser.EXTENSIONS, Arrays.asList(TablesExtension.create(), StrikethroughExtension.create()));
 
-		options.set(EmojiExtension.USE_IMAGE_TYPE, EmojiImageType.UNICODE_ONLY);
+
 		options.set(TablesExtension.WITH_CAPTION, false);
 		options.set(TablesExtension.COLUMN_SPANS, false);
 		options.set(TablesExtension.MIN_HEADER_ROWS, 1);
@@ -52,8 +54,10 @@ public class HtmlConvertService {
 			<html>
 			<head>
 			    <meta charset="UTF-8">
+			    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+			
 			    <style>
-			     %s
+			        %s
 			    </style>
 			</head>
 			<body>%s</body>
@@ -64,11 +68,14 @@ public class HtmlConvertService {
 
 	private String getStyle() {
 		try {
+
 			URL styleUrl = getClass().getResource("/org/zack/kitty/styles/webview-style.css");
 			assert styleUrl != null;
 			return Files.readString(Path.of(styleUrl.getFile()));
 		} catch (IOException e) {
+			log.error("Error in get style:", e);
 			return "";
 		}
 	}
+
 }

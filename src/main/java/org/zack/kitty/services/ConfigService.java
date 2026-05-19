@@ -4,45 +4,44 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.zack.kitty.dto.ConfigData;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ConfigService {
 
-	private final String CONFIG_PATH = "kitty-config.json";
+	private static final Path CONFIG_DIR = Path.of(
+		System.getProperty("user.home"), ".config", "kitty"
+	);
+
+	private static final Path CONFIG_FILE = CONFIG_DIR.resolve("kitty-config.json");
 
 	private final ObjectMapper objectMapper;
+	private static final Logger log = LoggerFactory.getLogger(ConfigService.class);
 
-	private int tentatives = 0;
 
 	public ConfigService() {
 		objectMapper = new ObjectMapper();
 	}
 
-
 	public ConfigData getConfigurations() throws IOException {
-		try {
-		String configFile = Files.readString(Path.of(CONFIG_PATH));
-			tentatives = 0;
-
-			return objectMapper.readValue(configFile, ConfigData.class);
-
-		} catch (IOException e) {
-
+		if (!Files.exists(CONFIG_FILE)) {
 			generateConfig(new ConfigData());
-			tentatives += 1;
-			if (tentatives < 5) {
-				return getConfigurations();
-			}
-			throw new RuntimeException("Max tentatives to load configurations");
 		}
+
+		String configFile = Files.readString(CONFIG_FILE);
+		return objectMapper.readValue(configFile, ConfigData.class);
 	}
 
-
 	public void generateConfig(ConfigData configData) throws IOException {
-		byte[] parse = objectMapper.writeValueAsBytes(configData);
 
-		Files.write(Path.of(CONFIG_PATH), parse);
+		Files.createDirectories(CONFIG_DIR);
+
+		byte[] parsed = objectMapper.writeValueAsBytes(configData);
+
+		Files.write(CONFIG_FILE, parsed);
+		log.debug("Config file generated");
 	}
 }

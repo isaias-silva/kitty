@@ -11,7 +11,6 @@ public class ServiceRegistry {
 	private final ConfigService configService;
 	private final SttService sttService;
 	private final AgentService agentService;
-
 	private final HtmlConvertService htmlConvertService;
 
 	public ServiceRegistry() {
@@ -23,9 +22,10 @@ public class ServiceRegistry {
 			this.agentService = new AgentService(configData);
 			this.htmlConvertService = new HtmlConvertService();
 
+
 		} catch (IOException e) {
 
-			throw new RuntimeException("error in load kitty-config.json");
+			throw new RuntimeException("error in load kitty-config.json", e);
 		}
 	}
 

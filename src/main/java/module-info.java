@@ -15,7 +15,6 @@ module org.zack.kitty {
 	requires flexmark.ext.gfm.strikethrough;
 	requires flexmark.util.data;
 	requires flexmark.util.misc;
-	requires flexmark.ext.emoji;
 
 	opens org.zack.kitty to javafx.fxml;
 	exports org.zack.kitty;

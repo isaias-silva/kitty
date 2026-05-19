@@ -6,6 +6,7 @@ import java.util.Properties;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Bootstrap extends Application {
@@ -23,6 +24,9 @@ public class Bootstrap extends Application {
 
 		stage.setResizable(false);
 		stage.setTitle(String.format("Kitty %s", version));
+
+		stage.getIcons().add(new Image(getClass().getResourceAsStream("/org/zack/kitty/assets/icon.png")));
+
 		stage.setScene(scene);
 		stage.show();
 	}

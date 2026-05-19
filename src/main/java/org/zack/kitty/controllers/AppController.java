@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.zack.kitty.dto.ChatData;
 import org.zack.kitty.io.AudioRecorder;
 import org.zack.kitty.services.ServiceRegistry;
@@ -33,7 +35,10 @@ public class AppController extends AnimationController {
 	private final AudioRecorder audioRecorder;
 
 	private BlackboardController blackboard;
+
 	private Stage auxStage;
+
+
 
 	public AppController() {
 		audioRecorder = new AudioRecorder("/tmp");
@@ -120,7 +125,6 @@ public class AppController extends AnimationController {
 
 
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
 
 			inputLabel.getStyleClass().add("error");
 			inputLabel.setText("Configuração inválida por favor ajuste a configuração.");
