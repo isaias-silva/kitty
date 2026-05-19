@@ -19,6 +19,7 @@ module org.zack.kitty {
 	opens org.zack.kitty to javafx.fxml;
 	exports org.zack.kitty;
 	exports org.zack.kitty.controllers;
+	exports org.zack.kitty.tools to langchain4j;
 	opens org.zack.kitty.controllers to javafx.fxml;
 	opens org.zack.kitty.dto to com.fasterxml.jackson.databind;
 }

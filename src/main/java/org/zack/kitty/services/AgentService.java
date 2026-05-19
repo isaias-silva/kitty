@@ -26,7 +26,10 @@ public class AgentService {
 	private Agent buildAgent(final ConfigData configData) {
 
 		OpenAiChatModel model = OpenAiChatModel.builder().baseUrl("https://api.groq.com/openai/v1")
-			.apiKey(configData.getLlmApiKey()).modelName(configData.getLlmModel()).build();
+			.apiKey(configData.getLlmApiKey())
+			.logRequests(true)
+			.logResponses(true)
+			.modelName(configData.getLlmModel()).build();
 
 		return AiServices.builder(Agent.class).chatModel(model)
 			.systemMessage(this.makeSystemPrompt(configData.getName(), configData.getSystemPrompt()))
@@ -34,7 +37,6 @@ public class AgentService {
 				.id(memoryId)
 				.maxMessages(10)
 				.build())
-			.tools()
 			.build();
 
 	}

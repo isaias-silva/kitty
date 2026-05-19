@@ -48,8 +48,10 @@ public class BlackboardController {
 		engine.loadContent(htmlConvertService.addHead("<p>pensando...</p>"),"text/html");
 
 		CompletableFuture.supplyAsync(() -> agent.chat(conversation, message), agentExecutor)
+			.exceptionally(Throwable::getMessage)
 			.thenApply(htmlConvertService::mdToHtml).thenApply(htmlConvertService::addHead)
 			.thenAccept(response -> Platform.runLater(() -> engine.loadContent(response, "text/html")));
+
 
 
 	}
