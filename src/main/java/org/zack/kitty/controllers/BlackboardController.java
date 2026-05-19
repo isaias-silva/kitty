@@ -1,10 +1,9 @@
 package org.zack.kitty.controllers;
 
-import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.zack.kitty.interfaces.Agent;
 import org.zack.kitty.services.HtmlConvertService;
@@ -29,7 +28,15 @@ public class BlackboardController {
 
 	@FXML
 	public void initialize() {
-		agentExecutor = Executors.newSingleThreadExecutor();
+		AtomicInteger threadCount = new AtomicInteger(1);
+
+		agentExecutor = Executors.newFixedThreadPool(2, r -> {
+			Thread t = new Thread(r);
+			t.setName("KittyAgent-Pool-Thread-" + threadCount.getAndIncrement());
+			t.setDaemon(false);
+			return t;
+		});
+
 		htmlConvertService = ServiceRegistry.INSTANCE.getHtmlConvertService();
 
 	}

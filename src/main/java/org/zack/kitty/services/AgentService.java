@@ -4,6 +4,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.zack.kitty.dto.ConfigData;
 import org.zack.kitty.interfaces.Agent;
+import org.zack.kitty.tools.PCTools;
 
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.openai.OpenAiChatModel;
@@ -35,8 +36,9 @@ public class AgentService {
 			.systemMessage(this.makeSystemPrompt(configData.getName(), configData.getSystemPrompt()))
 			.chatMemoryProvider(memoryId -> MessageWindowChatMemory.builder()
 				.id(memoryId)
-				.maxMessages(10)
+				.maxMessages(15)
 				.build())
+			.tools(new PCTools())
 			.build();
 
 	}

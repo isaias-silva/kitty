@@ -13,7 +13,6 @@ public class Bootstrap extends Application {
 
 	@Override
 	public void start(Stage stage) throws IOException {
-
 		final FXMLLoader fxmlLoader = new FXMLLoader(Bootstrap.class.getResource("app-view.fxml"));
 		final Scene scene = new Scene(fxmlLoader.load(), 520, 550);
 
@@ -32,7 +31,5 @@ public class Bootstrap extends Application {
 	}
 
 
-	public static void main(String[] args) {
-		launch();
-	}
+
 }
