@@ -1,26 +1,34 @@
 package org.zack.kitty.controllers;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.zack.kitty.dto.ChatData;
+import org.zack.kitty.dto.ConfigData;
+import org.zack.kitty.dto.ResizedImage;
 import org.zack.kitty.io.AudioRecorder;
 import org.zack.kitty.services.ServiceRegistry;
+import org.zack.kitty.utils.Utils;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class AppController extends AnimationController {
+
+	public Label assistantName;
+
+	public ImageView profileImage;
 
 	@FXML
 	private TextArea inputLabel;
@@ -51,6 +59,8 @@ public class AppController extends AnimationController {
 
 		animateScale(micButton, Duration.seconds(0.4), new double[] {0.4, 0.4});
 		animateFade(micButton, Duration.seconds(0.4), new double[] {1, 0.5});
+
+		loadInfo();
 	}
 
 
@@ -58,9 +68,7 @@ public class AppController extends AnimationController {
 	@FXML
 	protected void onMicClick() throws LineUnavailableException {
 		if (isListening) {
-
 			stopRecording();
-
 		} else {
 			startRecording();
 
@@ -80,6 +88,7 @@ public class AppController extends AnimationController {
 
 		Scene scene = new Scene(loader.load(), 800, 400);
 		stage.setScene(scene);
+		stage.setOnHidden(event -> loadInfo());
 		stage.show();
 	}
 
@@ -93,6 +102,22 @@ public class AppController extends AnimationController {
 	}
 
 
+	private void loadInfo() {
+		try {
+			ConfigData configuration = ServiceRegistry.INSTANCE.getConfigService().getConfigurations();
+			if (configuration.getName() != null) {
+				assistantName.setText(configuration.getName());
+			}
+			if (configuration.getProfilePath() != null) {
+				File image = new File(configuration.getProfilePath().replace("file:",""));
+				ResizedImage resizedImage = Utils.resizeImage(image);
+				profileImage.setViewport(resizedImage.rectangle());
+				profileImage.setImage(resizedImage.image());
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 	private void startRecording() throws LineUnavailableException {
 		playScaleAnimation();
 		playFadeAnimation();
@@ -159,4 +184,5 @@ public class AppController extends AnimationController {
 		}
 
 	}
+
 }

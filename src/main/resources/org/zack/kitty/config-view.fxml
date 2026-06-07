@@ -9,6 +9,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.geometry.Insets?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.shape.Circle?>
 <VBox styleClass="main" alignment="TOP_CENTER" spacing="24.0"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.zack.kitty.controllers.ConfigController"
@@ -23,6 +26,16 @@
     <HBox styleClass="config-row" spacing="24.0">
         <VBox styleClass="section-panel" HBox.hgrow="ALWAYS" spacing="16.0">
             <Label text="ASSISTENTE" styleClass="section-label"/>
+
+            <VBox styleClass="field-group">
+                <Label text="Perfil" styleClass="field-label"/>
+                <ImageView fitWidth="100" fitHeight="100" fx:id="profileImage" onMouseClicked="#changeProfile" styleClass="profile-button">
+                    <Image  url="@assets/profile.png"/>
+                    <clip>
+                        <Circle radius="50" centerX="50" centerY="50" />
+                    </clip>
+                </ImageView>
+            </VBox>
             <VBox styleClass="field-group">
                 <Label text="Nome do assistente" styleClass="field-label"/>
                 <TextField fx:id="assistantName" promptText="Ex: Kitty"/>

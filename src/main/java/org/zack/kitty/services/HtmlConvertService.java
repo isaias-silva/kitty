@@ -51,7 +51,8 @@ public class HtmlConvertService {
 
 	public String addHead(String html) {
 		return """
-			<html>
+			<!DOCTYPE html>
+			<html lang="pt">
 			<head>
 			    <meta charset="UTF-8">
 			    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -60,7 +61,10 @@ public class HtmlConvertService {
 			        %s
 			    </style>
 			</head>
-			<body>%s</body>
+			<body>
+			%s
+		
+			</body>
 			</html>
 			""".formatted(getStyle(), html);
 	}
@@ -69,7 +73,7 @@ public class HtmlConvertService {
 	private String getStyle() {
 		try {
 
-			URL styleUrl = getClass().getResource("/org/zack/kitty/styles/webview-style.css");
+			URL styleUrl = getClass().getResource("/org/zack/kitty/styles/blackboard.css");
 			assert styleUrl != null;
 			return Files.readString(Path.of(styleUrl.getFile()));
 		} catch (IOException e) {

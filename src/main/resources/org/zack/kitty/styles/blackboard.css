@@ -1,9 +1,13 @@
 
+@import url('https://googleapis.com');
+
+
 body {
+   font-family: 'Arial', 'Noto Color Emoji', sans-serif;
     font-family: sans-serif;
     padding: 12px;
     background-color: #1f1f1e;
-    color: #ffffff;
+    color: #fff;
 }
 
 table {
@@ -22,7 +26,7 @@ th, td {
 
 th {
     background-color: #161615;
-    color: #ffffff;
+    color: #fff;
     font-weight: bold;
 }
 
@@ -36,7 +40,7 @@ tr:hover {
 
 code {
     background-color: #161615;
-    color: #ffffff;
+    color: #fff;
     border: 1px solid #00aa55;
     padding: 2px 5px;
     border-radius: 3px;
@@ -46,7 +50,7 @@ code {
 
 pre {
     background-color: #161615;
-    color: #ffffff;
+    color: #fff;
     border: 1px solid #00aa55;
     padding: 12px;
     border-radius: 6px;

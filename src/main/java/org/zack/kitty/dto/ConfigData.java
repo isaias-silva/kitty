@@ -4,6 +4,8 @@ public class ConfigData {
 
 	private String name;
 
+	private String profilePath;
+
 	private String sttApiKey;
 
 	private String sttModel;
@@ -74,5 +76,15 @@ public class ConfigData {
 
 	public void setSystemPrompt(final String systemPrompt) {
 		this.systemPrompt = systemPrompt;
+	}
+
+
+	public String getProfilePath() {
+		return profilePath;
+	}
+
+
+	public void setProfilePath(final String profilePath) {
+		this.profilePath = profilePath;
 	}
 }

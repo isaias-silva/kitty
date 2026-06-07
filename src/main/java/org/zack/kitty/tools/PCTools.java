@@ -19,9 +19,9 @@ public class PCTools {
 
 
 	@Tool("Executa comandos no sistema e retorna o resultado")
-	public String executeCommand(@P("shell do sistema operacional") String shell,
-		@P("parâmetros do shell do sistema operacional") String shellParams,
-		@P("comando a ser executado pelo shell") String command) {
+	public String executeCommand(@P(name = "shell", value = "shell do sistema operacional (ex: bash, cmd)") String shell,
+		@P(name = "shellParams", value = "parâmetros do shell (ex: -c, /c)") String shellParams,
+		@P(name = "command", value = "comando completo a ser executado pelo shell") String command) {
 
 		ProcessBuilder builder = new ProcessBuilder(shell, shellParams, command);
 		builder.redirectErrorStream(true);
@@ -40,8 +40,8 @@ public class PCTools {
 			boolean endWithTime = process.waitFor(60, TimeUnit.SECONDS);
 			if (!endWithTime) {
 				process.destroyForcibly();
-				return "Erro: O comando excedeu o limite de tempo e foi abortado.\n"
-					+ "Output parcial:\n" + response.toString();
+				return "Erro: O comando excedeu o limite de tempo e foi abortado.\n" + "Output parcial:\n"
+					+ response.toString();
 			}
 			int exitCode = process.exitValue();
 			if (exitCode != 0) {
@@ -52,5 +52,5 @@ public class PCTools {
 		} catch (IOException | InterruptedException e) {
 			return e.getMessage();
 		}
+		}
 	}
-}

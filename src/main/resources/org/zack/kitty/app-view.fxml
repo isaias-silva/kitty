@@ -2,12 +2,14 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <VBox styleClass="main" alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.zack.kitty.controllers.AppController" stylesheets="@styles/main.css">
         <VBox>
@@ -19,11 +21,21 @@
         </padding>
 
 
-        <StackPane styleClass="profile">
-                <ImageView fitWidth="250" fitHeight="250" preserveRatio="true">
-                        <Image url="@assets/profile.png"/>
-                </ImageView>
-        </StackPane>
+        <VBox styleClass="profile">
+
+                <StackPane styleClass="avatar-container">
+                        <ImageView fitWidth="250" fitHeight="250" preserveRatio="true" fx:id="profileImage">
+                                <Image url="@assets/profile.png"/>
+                                <clip>
+                                        <Circle radius="125" centerX="125" centerY="125"/>
+                                </clip>
+                        </ImageView>
+                </StackPane>
+                <VBox styleClass="profile-info-group">
+                        <Label text="Kitty" styleClass="name" fx:id="assistantName"/>
+
+                </VBox>
+        </VBox>
 
         <Button fx:id="micButton" text="🎙️" onAction="#onMicClick" styleClass="btn"/>
         <AnchorPane styleClass="input-block">
