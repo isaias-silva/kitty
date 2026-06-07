@@ -12,6 +12,8 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
 
+import org.zack.kitty.utils.ExecutorsManager;
+
 public class AudioRecorder {
 
 	private final String path;
@@ -39,14 +41,13 @@ public class AudioRecorder {
 		final String filePath = String.format("%s/%s.wav", path, dateTime);
 		final File wavFile = new File(filePath);
 
-		Thread threadRecord = new Thread(() -> {
+		ExecutorsManager.INSTANCE.getExecutor().submit(() -> {
 			try {
 				AudioSystem.write(new AudioInputStream(line), AudioFileFormat.Type.WAVE, wavFile);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		});
-		threadRecord.start();
 
 
 		return filePath;

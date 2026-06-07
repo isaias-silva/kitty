@@ -21,6 +21,7 @@
 .save:hover,
 .submit:hover {
     -fx-background-color: #45a040;
+    -fx-cursor: hand;
 }
 
 .config {

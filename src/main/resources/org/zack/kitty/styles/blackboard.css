@@ -63,3 +63,15 @@ pre code {
     border: none;
     padding: 0;
 }
+
+.me, .agent{
+            padding: 5px;
+            border-radius: 10px;
+            text-align: left;
+            }
+.me{
+        background: green;
+}
+.agent{
+        background: gray;
+}

@@ -10,43 +10,61 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
-<VBox styleClass="main" alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.zack.kitty.controllers.AppController" stylesheets="@styles/main.css">
-        <VBox>
-              <Button styleClass="btn, config" text="⚙️" onAction="#onConfigClick"/>
-        </VBox>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+
+<VBox styleClass="main" spacing="20.0"
+      maxWidth="Infinity" maxHeight="Infinity"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.zack.kitty.controllers.AppController"
+      stylesheets="@styles/main.css">
 
         <padding>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
         </padding>
 
+        <HBox maxWidth="Infinity">
+                <Button styleClass="btn, config" text="⚙️" onAction="#onConfigClick"/>
+                <Region HBox.hgrow="ALWAYS" />
+                <Button styleClass="btn, config" text="..." onAction="#onConfigClick"/>
+        </HBox>
 
-        <VBox styleClass="profile">
 
+        <Region VBox.vgrow="ALWAYS" />
+
+
+        <VBox styleClass="profile" alignment="CENTER" maxWidth="Infinity">
                 <StackPane styleClass="avatar-container">
                         <ImageView fitWidth="250" fitHeight="250" preserveRatio="true" fx:id="profileImage">
-                                <Image url="@assets/profile.png"/>
+                                <image>
+                                        <Image url="@assets/profile.png"/>
+                                </image>
                                 <clip>
                                         <Circle radius="125" centerX="125" centerY="125"/>
                                 </clip>
                         </ImageView>
                 </StackPane>
-                <VBox styleClass="profile-info-group">
+                <VBox styleClass="profile-info-group" alignment="CENTER">
                         <Label text="Kitty" styleClass="name" fx:id="assistantName"/>
-
                 </VBox>
         </VBox>
 
-        <Button fx:id="micButton" text="🎙️" onAction="#onMicClick" styleClass="btn"/>
-        <AnchorPane styleClass="input-block">
+        <VBox alignment="CENTER" maxWidth="Infinity">
+                <Button fx:id="micButton" text="🎙️" onAction="#onMicClick"
+                        styleClass="btn" alignment="CENTER"/>
+        </VBox>
+
+
+        <Region VBox.vgrow="ALWAYS"  />
+
+
+        <AnchorPane styleClass="input-block" maxWidth="Infinity">
                 <TextArea fx:id="inputLabel" text="gostaria que..." wrapText="true" prefRowCount="3"
                           AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0"
                           AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"/>
                 <Button text="➤" styleClass="submit"
                         AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0"
-                       onAction="#onSendMessage"/>
+                        onAction="#onSendMessage"/>
         </AnchorPane>
-
-
 
 </VBox>
