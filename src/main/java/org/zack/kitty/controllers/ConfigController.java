@@ -2,6 +2,8 @@ package org.zack.kitty.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.zack.kitty.dto.ConfigData;
 import org.zack.kitty.dto.ResizedImage;
@@ -81,7 +83,9 @@ public class ConfigController {
 			sttModel.setText(data.getSttModel());
 			sttKey.setText(data.getSttApiKey());
 			systemPrompt.setText(data.getSystemPrompt());
-			profileImage.setImage(new Image(data.getProfilePath()));
+
+			if(Files.exists(Path.of(data.getProfilePath())))
+				profileImage.setImage(new Image(data.getProfilePath()));
 
 		} catch (IOException e) {
 			System.out.println(e.getMessage());

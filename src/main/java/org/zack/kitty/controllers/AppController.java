@@ -110,9 +110,11 @@ public class AppController extends AnimationController {
 			}
 			if (configuration.getProfilePath() != null) {
 				File image = new File(configuration.getProfilePath().replace("file:",""));
-				ResizedImage resizedImage = Utils.resizeImage(image);
-				profileImage.setViewport(resizedImage.rectangle());
-				profileImage.setImage(resizedImage.image());
+				if (image.exists()) {
+					ResizedImage resizedImage = Utils.resizeImage(image);
+					profileImage.setViewport(resizedImage.rectangle());
+					profileImage.setImage(resizedImage.image());
+				}
 			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
