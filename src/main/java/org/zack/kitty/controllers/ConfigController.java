@@ -84,7 +84,7 @@ public class ConfigController {
 			sttKey.setText(data.getSttApiKey());
 			systemPrompt.setText(data.getSystemPrompt());
 
-			if(Files.exists(Path.of(data.getProfilePath())))
+			if(Files.exists(Path.of(data.getProfilePath().replace("file:/","/"))))
 				profileImage.setImage(new Image(data.getProfilePath()));
 
 		} catch (IOException e) {
