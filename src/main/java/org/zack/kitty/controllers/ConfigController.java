@@ -5,11 +5,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.zack.kitty.core.ContextManager;
 import org.zack.kitty.dto.ConfigData;
 import org.zack.kitty.dto.ResizedImage;
-import org.zack.kitty.services.AgentService;
 import org.zack.kitty.services.ConfigService;
-import org.zack.kitty.services.ServiceRegistry;
 import org.zack.kitty.utils.Utils;
 
 import javafx.event.ActionEvent;
@@ -44,7 +43,7 @@ public class ConfigController {
 
 
 	@FXML
-	public void initialize(){
+	public void initialize() throws Exception {
 
 		data = new ConfigData();
 
@@ -52,7 +51,7 @@ public class ConfigController {
 	}
 
 
-	public void onSave(ActionEvent event) throws IOException {
+	public void onSave(ActionEvent event) throws Exception {
 
 		data.setName(assistantName.getText());
 		data.setLlmModel(llmModel.getText());
@@ -61,22 +60,17 @@ public class ConfigController {
 		data.setSttApiKey(sttKey.getText());
 		data.setSystemPrompt(systemPrompt.getText());
 
-		ServiceRegistry.INSTANCE.getConfigService().generateConfig(data);
-
-		final AgentService agentService = ServiceRegistry.INSTANCE.getAgentService();
-
-		agentService.setConfig(data);
-		agentService.resetAgent();
+		getConfigService().generateConfig(data);
 
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		stage.close();
 	}
 
 
-	private void loadConfig(){
-		ConfigService configService = ServiceRegistry.INSTANCE.getConfigService();
-		try {
-			data = configService.getConfigurations();
+
+	private void loadConfig() throws Exception {
+
+		data = getConfigService().getConfigurations();
 			assistantName.setText(data.getName());
 			llmModel.setText(data.getLlmModel());
 			llmKey.setText(data.getLlmApiKey());
@@ -87,12 +81,12 @@ public class ConfigController {
 			if(Files.exists(Path.of(data.getProfilePath().replace("file:/","/"))))
 				profileImage.setImage(new Image(data.getProfilePath()));
 
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
 
-		}
 	}
 
+	private ConfigService getConfigService() throws Exception {
+		return ContextManager.Context.getNode(ConfigService.class);
+	}
 
 	public void changeProfile(final MouseEvent mouseEvent) {
 		if (mouseEvent.getButton() == MouseButton.PRIMARY) {
@@ -118,4 +112,6 @@ public class ConfigController {
 			}
 		}
 	}
+
+
 }

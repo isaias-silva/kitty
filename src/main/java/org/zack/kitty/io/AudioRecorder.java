@@ -12,7 +12,7 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
 
-import org.zack.kitty.utils.ExecutorsManager;
+import org.zack.kitty.core.ExecutorsManager;
 
 public class AudioRecorder {
 

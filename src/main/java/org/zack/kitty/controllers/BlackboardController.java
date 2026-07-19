@@ -5,11 +5,12 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
+import org.zack.kitty.core.ContextManager;
+import org.zack.kitty.core.ExecutorsManager;
 import org.zack.kitty.dto.AgentResponse;
 import org.zack.kitty.interfaces.Agent;
+import org.zack.kitty.services.AgentService;
 import org.zack.kitty.services.HtmlConvertService;
-import org.zack.kitty.services.ServiceRegistry;
-import org.zack.kitty.utils.ExecutorsManager;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -28,21 +29,21 @@ public class BlackboardController {
 	private HashMap<String, String> conversations = new HashMap<>();
 
 	@FXML
-	public void initialize() {
+	public void initialize() throws Exception {
 
-		htmlConvertService = ServiceRegistry.INSTANCE.getHtmlConvertService();
+		htmlConvertService = ContextManager.Context.getNode(HtmlConvertService.class);
 
 	}
 
 
-	public void sendPrompt(String message) {
+	public void sendPrompt(String message) throws Exception {
 		this.sendPrompt(message, "default-conversation");
 	}
 
 
-	public void sendPrompt(String message, String conversation) {
+	public void sendPrompt(String message, String conversation) throws Exception {
 
-		final Agent agent = ServiceRegistry.INSTANCE.getAgentService().getAgent();
+		final Agent agent = ContextManager.Context.getNode(AgentService.class).getAgent();
 
 		final WebEngine engine = webView.getEngine();
 
@@ -57,19 +58,19 @@ public class BlackboardController {
 
 		engine.loadContent(htmlConvertService.addHead(messageContent), "text/html");
 
-		CompletableFuture.supplyAsync(() -> agent.chat(conversation, message), ExecutorsManager.INSTANCE.getExecutor())
-			.exceptionally(ex -> new AgentResponse(ex.getMessage(), null))
-			.thenApply(r -> htmlConvertService.mdToHtml(r.content().isBlank() ? r.reasoning() : r.content()))
-			.thenApply(convertedResponse -> {
-				String oldContent = conversations.get(conversation);
-				String newContent = oldContent + "\n" + String.format("<div class=\"agent\"> %s </div>", convertedResponse);
+				CompletableFuture.supplyAsync(() -> agent.chat(conversation, message), ExecutorsManager.INSTANCE.getExecutor())
+					.exceptionally(ex -> new AgentResponse(ex.getMessage(), null))
+					.thenApply(r -> htmlConvertService.mdToHtml(r.content().isBlank() ? r.reasoning() : r.content()))
+					.thenApply(convertedResponse -> {
+						String oldContent = conversations.get(conversation);
+						String newContent = oldContent + "\n" + String.format("<div class=\"agent\"> %s </div>", convertedResponse);
 
-				conversations.put(conversation, newContent);
-				return newContent;
-			})
-			.thenApply(htmlConvertService::addHead)
-			.thenApply(v -> Base64.getEncoder().encodeToString(v.getBytes(StandardCharsets.UTF_8))).thenAccept(
-				response -> Platform.runLater(() -> engine.load("data:text/html;charset=utf-8;base64," + response)));
+						conversations.put(conversation, newContent);
+						return newContent;
+					})
+					.thenApply(htmlConvertService::addHead)
+					.thenApply(v -> Base64.getEncoder().encodeToString(v.getBytes(StandardCharsets.UTF_8))).thenAccept(
+						response -> Platform.runLater(() -> engine.load("data:text/html;charset=utf-8;base64," + response)));
 
 
 	}

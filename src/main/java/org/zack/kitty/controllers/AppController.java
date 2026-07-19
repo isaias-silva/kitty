@@ -5,11 +5,13 @@ import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
 
+import org.zack.kitty.core.ContextManager;
 import org.zack.kitty.dto.ChatData;
 import org.zack.kitty.dto.ConfigData;
 import org.zack.kitty.dto.ResizedImage;
 import org.zack.kitty.io.AudioRecorder;
-import org.zack.kitty.services.ServiceRegistry;
+import org.zack.kitty.services.ConfigService;
+import org.zack.kitty.services.SttService;
 import org.zack.kitty.utils.Utils;
 
 import javafx.fxml.FXML;
@@ -22,9 +24,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
-public class AppController extends AnimationController {
+public class AppController {
 
 	public Label assistantName;
 
@@ -46,19 +47,19 @@ public class AppController extends AnimationController {
 
 	private Stage auxStage;
 
+	private final ConfigService configService;
 
 
-	public AppController() {
+	public AppController() throws Exception {
 		audioRecorder = new AudioRecorder("/tmp");
 		chatData = new ChatData();
+		configService = ContextManager.Context.getNode(ConfigService.class);
 	}
 
 
 	@FXML
 	public void initialize() {
 
-		animateScale(micButton, Duration.seconds(0.4), new double[] {0.4, 0.4});
-		animateFade(micButton, Duration.seconds(0.4), new double[] {1, 0.5});
 
 		loadInfo();
 	}
@@ -94,7 +95,7 @@ public class AppController extends AnimationController {
 
 
 	@FXML
-	protected void onSendMessage() throws IOException {
+	protected void onSendMessage() throws Exception {
 		chatData.setText(inputLabel.getText());
 		openBlackboard();
 		blackboard.sendPrompt(chatData.getText());
@@ -103,26 +104,21 @@ public class AppController extends AnimationController {
 
 
 	private void loadInfo() {
-		try {
-			ConfigData configuration = ServiceRegistry.INSTANCE.getConfigService().getConfigurations();
-			if (configuration.getName() != null) {
-				assistantName.setText(configuration.getName());
+		ConfigData configuration = configService.getConfigurations();
+		if (configuration.getName() != null) {
+			assistantName.setText(configuration.getName());
+		}
+		if (configuration.getProfilePath() != null) {
+			File image = new File(configuration.getProfilePath().replace("file:", ""));
+			if (image.exists()) {
+				ResizedImage resizedImage = Utils.resizeImage(image);
+				profileImage.setViewport(resizedImage.rectangle());
+				profileImage.setImage(resizedImage.image());
 			}
-			if (configuration.getProfilePath() != null) {
-				File image = new File(configuration.getProfilePath().replace("file:",""));
-				if (image.exists()) {
-					ResizedImage resizedImage = Utils.resizeImage(image);
-					profileImage.setViewport(resizedImage.rectangle());
-					profileImage.setImage(resizedImage.image());
-				}
-			}
-		} catch (IOException e) {
-			throw new RuntimeException(e);
 		}
 	}
 	private void startRecording() throws LineUnavailableException {
-		playScaleAnimation();
-		playFadeAnimation();
+
 		micButton.setText("...");
 		isListening = true;
 		inputLabel.getStyleClass().remove("error");
@@ -135,21 +131,17 @@ public class AppController extends AnimationController {
 	private void stopRecording() {
 
 
-		stopScaleAnimation(micButton);
-		stopFadeAnimation(micButton);
-
 		micButton.setText("🎙️");
 		isListening = false;
 
 		inputLabel.setText("...");
 		audioRecorder.stopRecord();
 		try {
-			chatData.setText(ServiceRegistry.INSTANCE.getSttService().transcript(chatData.getAudioPath()));
+			chatData.setText(ContextManager.Context.getNode(SttService.class).transcript(chatData.getAudioPath()));
 			inputLabel.setText(chatData.getText());
 			openBlackboard();
 
 			blackboard.sendPrompt(chatData.getText());
-
 
 		} catch (Exception e) {
 

@@ -6,11 +6,14 @@ import java.nio.file.Path;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.zack.kitty.core.BaseNode;
+import org.zack.kitty.core.annotations.Node;
 import org.zack.kitty.dto.ConfigData;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class ConfigService {
+@Node
+public class ConfigService extends BaseNode {
 
 	private static final Path CONFIG_DIR = Path.of(
 		System.getProperty("user.home"), ".config", "kitty"
@@ -26,22 +29,36 @@ public class ConfigService {
 		objectMapper = new ObjectMapper();
 	}
 
-	public ConfigData getConfigurations() throws IOException {
+
+	public ConfigData getConfigurations() {
+		try {
+
+
 		if (!Files.exists(CONFIG_FILE)) {
 			generateConfig(new ConfigData());
 		}
 
 		String configFile = Files.readString(CONFIG_FILE);
-		return objectMapper.readValue(configFile, ConfigData.class);
+			return objectMapper.readValue(configFile, ConfigData.class);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
-	public void generateConfig(ConfigData configData) throws IOException {
+
+	public void generateConfig(ConfigData configData) {
+
+		try {
 
 		Files.createDirectories(CONFIG_DIR);
 
 		byte[] parsed = objectMapper.writeValueAsBytes(configData);
 
 		Files.write(CONFIG_FILE, parsed);
-		log.debug("Config file generated");
+			log.debug("Config file generated");
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
 	}
 }

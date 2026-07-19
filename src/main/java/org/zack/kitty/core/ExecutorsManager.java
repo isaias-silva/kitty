@@ -1,4 +1,4 @@
-package org.zack.kitty.utils;
+package org.zack.kitty.core;
 
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
@@ -13,7 +13,7 @@ public class ExecutorsManager {
 
 	public ExecutorsManager() {
 
-		executorService = Executors.newFixedThreadPool(2, r -> {
+		executorService = Executors.newFixedThreadPool(3, r -> {
 			Thread t = new Thread(r);
 			t.setName("k-pool-thread-" + UUID.randomUUID());
 			t.setDaemon(false);

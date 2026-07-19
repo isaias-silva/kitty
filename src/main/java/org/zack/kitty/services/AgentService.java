@@ -2,6 +2,10 @@ package org.zack.kitty.services;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.zack.kitty.core.BaseNode;
+import org.zack.kitty.core.annotations.InjectNode;
+import org.zack.kitty.core.annotations.Node;
+import org.zack.kitty.core.annotations.OnCreate;
 import org.zack.kitty.dto.ConfigData;
 import org.zack.kitty.interfaces.Agent;
 import org.zack.kitty.tools.PCTools;
@@ -10,21 +14,24 @@ import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.service.AiServices;
 
-public class AgentService {
+@Node
+public class AgentService extends BaseNode {
 
 	private final AtomicReference<Agent> agentRef = new AtomicReference<>();
 
-	private ConfigData config;
+	@InjectNode
+	private ConfigService configService;
 
-	public AgentService(ConfigData configData) {
 
-		config = configData;
-		final Agent agent = buildAgent(config);
-		agentRef.set(agent);
+	@OnCreate
+	private void init() {
+		resetAgent();
 	}
 
 
-	private Agent buildAgent(final ConfigData configData) {
+	private Agent buildAgent() {
+		try {
+			ConfigData configData = configService.getConfigurations();
 
 		OpenAiChatModel model = OpenAiChatModel.builder().baseUrl("https://api.groq.com/openai/v1")
 			.apiKey(configData.getLlmApiKey())
@@ -36,10 +43,10 @@ public class AgentService {
 			.systemMessage(this.makeSystemPrompt(configData.getName(), configData.getSystemPrompt()))
 			.chatMemoryProvider(memoryId -> MessageWindowChatMemory.builder()
 				.id(memoryId)
-				.maxMessages(15)
-				.build())
-			.tools(new PCTools())
-			.build();
+				.maxMessages(15).build()).tools(new PCTools()).build();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 
 	}
 
@@ -50,13 +57,8 @@ public class AgentService {
 
 
 	public void resetAgent() {
-		final Agent agent = buildAgent(config);
+		final Agent agent = buildAgent();
 		agentRef.set(agent);
-	}
-
-
-	public void setConfig(final ConfigData config) {
-		this.config = config;
 	}
 
 

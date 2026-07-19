@@ -8,6 +8,8 @@ import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.zack.kitty.core.BaseNode;
+import org.zack.kitty.core.annotations.Node;
 
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension;
 import com.vladsch.flexmark.ext.tables.TablesExtension;
@@ -15,7 +17,8 @@ import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.data.MutableDataSet;
 
-public class HtmlConvertService {
+@Node
+public class HtmlConvertService extends BaseNode {
 
 	private final Parser parser;
 
